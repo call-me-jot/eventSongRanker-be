@@ -1,23 +1,17 @@
-const app = require('./app');
+// src/server.js
+const express = require('express');
+const dotenv = require('dotenv');
+const dataRoute = require('./routes/dataRoute');
 
-const PORT = process.env.PORT || 3000;
+dotenv.config();  // Load environment variables
 
-const server = app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+const app = express();
 
-// Handle unhandled rejections
-process.on('unhandledRejection', (err) => {
-  console.error('UNHANDLED REJECTION! 💥 Shutting down...');
-  console.error(err);
-  server.close(() => {
-    process.exit(1);
-  });
-});
+// Middleware to parse JSON
+app.use(express.json());
 
-// Handle uncaught exceptions
-process.on('uncaughtException', (err) => {
-  console.error('UNCAUGHT EXCEPTION! 💥 Shutting down...');
-  console.error(err);
-  process.exit(1);
-});
+// Register routes
+app.use('/api/data', dataRoute);
+
+// Export the app instance for use in app.js
+module.exports = app;
