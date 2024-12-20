@@ -1,8 +1,13 @@
-const express = require("express");
-const router = express.Router();
-const DataController = require("../controllers/DataController");
+// src/routes/dataRoute.js
+const express = require('express');
+const DataController = require('../controllers/DataController');
 
-// Define route
-router.get("/data/:id", (req, res) => DataController.getDataById(req, res));
+const router = express.Router();
+
+// Route to fetch the top tracks
+router.get('/top-tracks', (req, res) => {
+  const dataController = new DataController();
+  dataController.getTopTracks(req, res);
+});
 
 module.exports = router;
