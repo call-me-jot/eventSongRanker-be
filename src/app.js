@@ -1,29 +1,14 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const connectDB = require('./config/db');
-const authRoutes = require('./routes/auth');
-const dataRoute = require("./routes/dataRoute");
-const errorHandler = require('./middleware/errorHandler');
+const express = require("express");
+const cors = require("cors");
 
-// Create Express app
 const app = express();
 
-// Connect to MongoDB
-connectDB();
-
 // Middleware
-app.use(cors());
 app.use(express.json());
+app.use(cors());
 
 // Routes
-app.use('/api/auth', authRoutes);
+const dataRoute = require("./routes/dataRoute");
 app.use("/api", dataRoute);
 
-// Error handler
-app.use(errorHandler);
-
-
-
 module.exports = app;
-
