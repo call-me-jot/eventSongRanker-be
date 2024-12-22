@@ -1,10 +1,16 @@
-// src/app.js
-const app = require('./server');  // Import the app from server.js
+const express = require('express');
+const dotenv = require('dotenv');
+const dataRoute = require('./routes/dataRoute');
 
-// Define the port (or use the one in the .env file)
-const PORT = process.env.PORT || 5000;
+dotenv.config(); // Load environment variables
 
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+const app = express();
+
+// Middleware to parse JSON
+app.use(express.json());
+
+// Register routes
+app.use('/api/data', dataRoute);
+
+// Export the app instance for use in server.js
+module.exports = app;
