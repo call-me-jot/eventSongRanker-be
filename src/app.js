@@ -1,29 +1,16 @@
-require('dotenv').config();
 const express = require('express');
-const cors = require('cors');
-const connectDB = require('./config/db');
-const authRoutes = require('./routes/auth');
-const dataRoute = require("./routes/dataRoute");
-const errorHandler = require('./middleware/errorHandler');
+const dotenv = require('dotenv');
+const dataRoute = require('./routes/dataRoute');
 
-// Create Express app
+dotenv.config(); // Load environment variables
+
 const app = express();
 
-// Connect to MongoDB
-connectDB();
-
-// Middleware
-app.use(cors());
+// Middleware to parse JSON
 app.use(express.json());
 
-// Routes
-app.use('/api/auth', authRoutes);
-app.use("/api", dataRoute);
+// Register routes
+app.use('/api/data', dataRoute);
 
-// Error handler
-app.use(errorHandler);
-
-
-
+// Export the app instance for use in server.js
 module.exports = app;
-
